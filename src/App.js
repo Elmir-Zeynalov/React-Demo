@@ -1,25 +1,52 @@
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
 import './App.css';
+import Table from './Table.js';
+
 
 function App() {
+  /* Create state:
+        - apiData: List containing dictionaries of countries from API.
+        - apiPageData: Dictionary containing pager information from API
+        - searchQuery: The query parameter that should be added to &search=
+        - pageNumber: The page that is requested
+  */
+ 
+  const [apiData, setApiData] = useState([]);
+  const [apiPageData, setApiPageData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(); // Default = No search query
+  const [pageNumber, setPageNumber] = useState(1); //Default = Page 1
+
+
+  useEffect(() => {
+    // All parameters are appended to this URL.
+    let apiQuery = "https://dhis2-app-course-api.ifi.uio.no/api?";
+
+    // If searchQuery isn't empty add &search=searchQuery to the API request.
+    if (searchQuery) {
+      apiQuery = apiQuery + "&search=" + searchQuery;
+    } 
+
+    // Add what page we are requesting to the API request.
+    apiQuery = apiQuery + "&page=" + pageNumber;
+
+    // Query data from API.
+    console.log("Querying: " + apiQuery)
+    fetch(apiQuery)
+      .then(results => results.json())
+      .then(data => {
+        // Then add response to state. 
+        setApiPageData(data.page);
+        setApiData(data.results);
+      });
+  }, [searchQuery, pageNumber]); // Array containing state that should re-reun useEffect()
+
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Country lookup</h1>
+      <Table apiData={apiData} />
     </div>
   );
-}
+}   
 
 export default App;
