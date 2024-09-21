@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+I used this to showcase some concepts in React and have built some basic functionality on top of baseline created by Alexander (just a modified create-react-app).
+
 ## Available Scripts
 
 In the project directory, you can run:
