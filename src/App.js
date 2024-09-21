@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Table from "./Table.js";
+import Search from "./Components/Search.jsx";
 
 function App() {
   /* Create state:
@@ -15,7 +16,7 @@ function App() {
 
   useEffect(() => {
     // All parameters are appended to this URL.
-    let apiQuery = "https://dhis2-app-course-api.ifi.uio.no/api?";
+    let apiQuery = "https://dhis2-app-course.ifi.uio.no/api?";
 
     // If searchQuery isn't empty add &search=searchQuery to the API request.
     if (searchQuery) {
@@ -32,12 +33,15 @@ function App() {
       .then((data) => {
         // Then add response to state.
         setApiData(data);
-      });
+        console.log('IN FETCH: ', data)
+      }).catch(()=> {console.log("FAIL")});
   }, [searchQuery, pageNumber]); // Array containing which state changes that should re-reun useEffect()
 
   return (
     <div className="App">
-      <h1>Country lookup</h1>
+      <h1>Country Search</h1>
+      
+      <Search handleSearch={setSearchQuery}/>
       <Table apiData={apiData} />
     </div>
   );
