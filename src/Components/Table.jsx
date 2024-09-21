@@ -20,7 +20,7 @@ function Table({ apiData }) {
     console.log("Results", apiData.results);
 
     return (
-      <table>
+      <table className="table-component">
         <TableHeader headers={tableHeaders} />
         <TableRows data={apiData.results} />
       </table>

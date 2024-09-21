@@ -1,3 +1,7 @@
 .App {
   text-align: center;
 }
+
+.table-component{
+  border: 2px solid black;
+}
