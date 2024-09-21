@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import Table from "./Table.js";
+
 import Search from "./Components/Search.jsx";
+import Table from "./Components/Table.jsx";
 
 function App() {
   /* Create state:
@@ -40,9 +41,9 @@ function App() {
   return (
     <div className="App">
       <h1>Country Search</h1>
-      
-      <Search handleSearch={setSearchQuery}/>
+      <Search onSearchInput={setSearchQuery}/>
       <Table apiData={apiData} />
+      <FooterComponent />
     </div>
   );
 }
