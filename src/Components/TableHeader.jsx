@@ -1,11 +1,27 @@
-export default function TableHeader({ headers }) {
+export default function TableHeader({
+  headers,
+  sortingValue,
+  setSortingValue,
+}) {
+  function handleClick(e) {
+    console.log("Clicked HEADER!");
+    const newSort =
+      e.target.innerText +
+      ":" +
+      (sortingValue.split(":")[1] === "ASC" ? "DESC" : "ASC");
+    console.log(sortingValue.split(":")[0] === e.target.innerText);
+    console.log("Old:" + e.target.innerText);
+    console.log("New: " + newSort);
+
+    setSortingValue(newSort);
+  }
   return (
-    <thead>
-      <tr>
-        {headers.map((header, index) => (
-          <th key={index}>{header}</th>
-        ))}
-      </tr>
-    </thead>
+    <tr>
+      {headers.map((header, index) => (
+        <th key={index} onClick={handleClick}>
+          {header}
+        </th>
+      ))}
+    </tr>
   );
 }

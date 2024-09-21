@@ -18,6 +18,17 @@ function App() {
   const [pageNumber, setPageNumber] = useState(1); //Default = Page 1
   const [pageSize, setPageSize] = useState(10);
 
+  const [orderValue, setOrderValue] = useState('');
+
+
+  useEffect(() => {
+    // When searchQuery changes, reset the page number to 1
+    setPageNumber(1);
+  }, [searchQuery]);
+
+
+
+
   useEffect(() => {
     // All parameters are appended to this URL.
     let apiQuery = "https://dhis2-app-course.ifi.uio.no/api?";
@@ -26,6 +37,10 @@ function App() {
     // If searchQuery isn't empty add &search=searchQuery to the API request.
     if (searchQuery) {
       apiQuery = apiQuery + "&search=" + searchQuery;
+    }
+
+    if(orderValue.length > 1){
+      apiQuery = apiQuery + "&order=" + orderValue;
     }
 
     // Add what page we are requesting to the API request.
@@ -38,20 +53,24 @@ function App() {
       .then((data) => {
         // Then add response to state.
         setApiData(data);
-        console.log('IN FETCH: ', data)
       }).catch(()=> {console.log("FAIL")});
-  }, [searchQuery, pageNumber, pageSize]); // Array containing which state changes that should re-reun useEffect()
+  }, [searchQuery, pageNumber, pageSize, orderValue]); // Array containing which state changes that should re-reun useEffect()
+
+   // New effect to reset page number when searchQuery changes
+
+
 
   return (
     <div className="App">
       <h1>Country Search</h1>
       <Search onSearchInput={setSearchQuery}/>
-      <Table apiData={apiData} />
+      <Table apiData={apiData} sortingValue={orderValue} setSortingValue={setOrderValue}/>
       <FooterComponent 
       pager = {apiData.pager} 
       pageSwitcher={setPageNumber} 
       pageSize={pageSize} 
       pageSizeChanger={setPageSize}
+      setPageNumber={setPageNumber}
       />
     </div>
   );

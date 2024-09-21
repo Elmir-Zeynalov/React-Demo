@@ -1,7 +1,7 @@
 import TableHeader from "./TableHeader";
 import TableRows from "./TableRows";
 
-function Table({ apiData }) {
+function Table({ apiData, sortingValue, setSortingValue }) {
   console.log("We are in the TABLE componeent");
   console.log("in api data:" + apiData);
   const tableHeaders = [
@@ -21,8 +21,16 @@ function Table({ apiData }) {
 
     return (
       <table className="table-component">
-        <TableHeader headers={tableHeaders} />
-        <TableRows data={apiData.results} />
+        <thead>
+          <TableHeader
+            headers={tableHeaders}
+            sortingValue={sortingValue}
+            setSortingValue={setSortingValue}
+          />
+        </thead>
+        <tbody>
+          <TableRows data={apiData.results} />
+        </tbody>
       </table>
     );
   }

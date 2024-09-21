@@ -3,9 +3,8 @@ export default function FooterComponent({
   pageSwitcher,
   pageSize,
   pageSizeChanger,
+  setPageNumber,
 }) {
-  console.log("IN Footer- ", pager);
-
   if (!pager) return <></>;
   const currentPage = pager.page;
 
@@ -18,6 +17,17 @@ export default function FooterComponent({
   const handlePreviousPage = () => pageSwitcher(() => currentPage - 1);
 
   const handlePageSizeChange = (event) => {
+    if (currentPage > Math.round(pager.total / event.target.value)) {
+      console.log(
+        "Current page > max:: -> " +
+          currentPage +
+          " " +
+          pager.total / event.target.value
+      );
+      let newPage = Math.ceil(pager.total / event.target.value);
+      setPageNumber(newPage);
+    }
+    //total / pageSize
     pageSizeChanger(parseInt(event.target.value, 10)); // Parse the value to an integer
   };
   return (
